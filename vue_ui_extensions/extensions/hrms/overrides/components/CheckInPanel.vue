@@ -12,16 +12,12 @@
 					<span @click="navigate" class="underline">View List</span>
 				</router-link>
 			</div>
-			<Button
-				class="mt-4 mb-1 drop-shadow-sm py-5 text-base"
-				id="open-checkin-modal"
-				@click="handleEmployeeCheckin"
-			>
+
+			<Button class="mt-4 mb-1 drop-shadow-sm py-5 text-base" id="open-checkin-modal"
+				@click="handleEmployeeCheckin">
 				<template #prefix>
-					<FeatherIcon
-						:name="nextAction.action === 'IN' ? 'arrow-right-circle' : 'arrow-left-circle'"
-						class="w-4"
-					/>
+					<FeatherIcon :name="nextAction.action === 'IN' ? 'arrow-right-circle' : 'arrow-left-circle'"
+						class="w-4" />
 				</template>
 				{{ nextAction.label }}
 			</Button>
@@ -32,13 +28,8 @@
 		</div>
 	</div>
 
-	<ion-modal
-		v-if="settings.data?.allow_employee_checkin_from_mobile_app"
-		ref="modal"
-		trigger="open-checkin-modal"
-		:initial-breakpoint="1"
-		:breakpoints="[0, 1]"
-	>
+	<ion-modal v-if="settings.data?.allow_employee_checkin_from_mobile_app" ref="modal" trigger="open-checkin-modal"
+		:initial-breakpoint="1" :breakpoints="[0, 1]">
 		<div class="h-120 w-full flex flex-col items-center justify-center gap-5 p-4 mb-5">
 			<div class="flex flex-col gap-1.5 mt-2 items-center justify-center">
 				<div class="font-bold text-xl">
@@ -55,21 +46,15 @@
 				</span>
 
 				<div class="rounded border-4 translate-z-0 block overflow-hidden w-full h-170">
-					<iframe
-						width="100%"
-						height="170"
-						frameborder="0"
-						scrolling="no"
-						marginheight="0"
-						marginwidth="0"
+					<iframe width="100%" height="170" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
 						style="border: 0"
-						:src="`https://maps.google.com/maps?q=${latitude},${longitude}&hl=en&z=15&amp;output=embed`"
-					>
+						:src="`https://maps.google.com/maps?q=${latitude},${longitude}&hl=en&z=15&amp;output=embed`">
 					</iframe>
 				</div>
 			</template>
 
-			<Button :loading="checkins.insert.loading" variant="solid" class="w-full py-5 text-sm disabled:bg-gray-700" @click="submitLog(nextAction.action)">
+			<Button :loading="checkins.insert.loading" variant="solid" class="w-full py-5 text-sm disabled:bg-gray-700"
+				@click="submitLog(nextAction.action)">
 				{{ __("Confirm {0}", [nextAction.label]) }}
 			</Button>
 		</div>
