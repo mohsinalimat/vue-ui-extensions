@@ -3,13 +3,13 @@
 from __future__ import annotations
 
 import os
-import subprocess
 import sys
 from pathlib import Path
 
 import click
 
 from vue_ui_extensions.registry import discover_build_targets, get_app_root
+from vue_ui_extensions.utils.node_runner import run_node_script
 
 
 def get_bench_path() -> Path:
@@ -110,14 +110,7 @@ def run_build(targets: list[dict] | None = None) -> None:
 	if targets:
 		env["VUE_EXT_TARGETS"] = ",".join(target["app_name"] for target in targets)
 
-	result = subprocess.run(
-		["node", str(script)],
-		cwd=script.parent.parent,
-		env=env,
-		check=False,
-	)
-	if result.returncode != 0:
-		raise RuntimeError("vue_ui_extensions frontend build failed")
+	run_node_script(script, script.parent.parent, extra_env=env)
 
 
 def build_target(target_name: str) -> None:
@@ -126,14 +119,7 @@ def build_target(target_name: str) -> None:
 	env = os.environ.copy()
 	env["BENCH_PATH"] = str(get_bench_path())
 	env["VUE_EXT_TARGET"] = target_name
-	result = subprocess.run(
-		["node", str(script)],
-		cwd=script.parent.parent,
-		env=env,
-		check=False,
-	)
-	if result.returncode != 0:
-		raise RuntimeError(f"Build failed for target: {target_name}")
+	run_node_script(script, script.parent.parent, extra_env=env)
 
 
 if __name__ == "__main__":

@@ -6,7 +6,7 @@ no_cache = 1
 def get_context(context):
 	from helpdesk.www.helpdesk.index import get_boot
 
-	frappe.db.commit()
+	frappe.db.commit()  # nosemgrep — persist CSRF/session state from get_boot like upstream helpdesk
 	context.boot = get_boot()
 	context.site_name = frappe.local.site
 	if frappe.session.user != "Guest":
